@@ -1,0 +1,583 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style><title>AI·디지털 연수 일정</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="theme-color" content="#F3F4FB">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;500;700&family=Outfit:wght@400;600;700&display=swap">
+<style>
+/* Layout: 한 손 스크롤용 단일 컬럼. 여행 티켓 모티프의 헤더 → 준비 카드 → 날짜 탭 타임라인 → 주의사항 → 장소 */
+:root{
+  --bg:#F3F4FB;
+  --surface:#FFFFFF;
+  --ink:#1E2346;
+  --muted:#6A6F91;
+  --line:#E2E4F2;
+  --coral:#FF6F86;
+  --coral-soft:#FFE3E8;
+  --butter:#FFD36A;
+  --butter-soft:#FFF4D6;
+  --mint:#4FBF9F;
+  --mint-soft:#DDF4EC;
+  --sky:#7C8CFF;
+  --sky-soft:#E6E9FF;
+  --night:#232A5C;
+  --night-ink:#F5F6FF;
+  --shadow:0 1px 2px rgba(30,35,70,.05),0 8px 24px -12px rgba(30,35,70,.18);
+  --f-display:"Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-body:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --f-num:"Outfit","Noto Sans KR",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#12152B;--surface:#1C2040;--ink:#EEF0FF;--muted:#A3A8CC;--line:#2C3160;
+  --coral:#FF8A9C;--coral-soft:#3A2240;--butter:#FFD780;--butter-soft:#3A3326;
+  --mint:#6FD6B7;--mint-soft:#1E3A3A;--sky:#9AA6FF;--sky-soft:#262C5C;
+  --night:#0B0E22;--night-ink:#F5F6FF;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -14px rgba(0,0,0,.6);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12152B;--surface:#1C2040;--ink:#EEF0FF;--muted:#A3A8CC;--line:#2C3160;
+  --coral:#FF8A9C;--coral-soft:#3A2240;--butter:#FFD780;--butter-soft:#3A3326;
+  --mint:#6FD6B7;--mint-soft:#1E3A3A;--sky:#9AA6FF;--sky-soft:#262C5C;
+  --night:#0B0E22;--night-ink:#F5F6FF;--shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -14px rgba(0,0,0,.6);
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:anywhere}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:520px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px;display:flex;flex-direction:column;gap:28px}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;text-wrap:balance;margin:0}
+p{margin:0}
+.num{font-family:var(--f-num);font-variant-numeric:tabular-nums}
+.eyebrow{font-size:12px;letter-spacing:.08em;color:var(--muted);font-weight:500}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--sky);outline-offset:2px;border-radius:8px}
+
+/* ---------- 티켓 헤더 ---------- */
+.ticket{position:relative;background:var(--night);color:var(--night-ink);border-radius:24px;overflow:hidden;box-shadow:var(--shadow)}
+.ticket-top{position:relative;padding:22px 20px 20px;display:flex;flex-direction:column;gap:14px}
+.ticket canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.ticket-top>*{position:relative}
+.tag{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.12);letter-spacing:.04em}
+.tag i{width:6px;height:6px;border-radius:50%;background:var(--butter);display:block}
+.ticket h1{font-size:27px;line-height:1.3}
+.ticket h1 em{font-style:normal;color:var(--butter)}
+.ticket .sub{font-size:13px;opacity:.75;line-height:1.5}
+.route{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;margin-top:4px}
+.route .city{display:flex;flex-direction:column}
+.route .city b{font-family:var(--f-num);font-size:26px;font-weight:700;letter-spacing:.02em;line-height:1.1}
+.route .city span{font-size:12px;opacity:.7}
+.route .city:last-child{text-align:right}
+.route svg{width:72px;height:24px}
+.perf{position:relative;height:20px;background:var(--night)}
+.perf::before,.perf::after{content:"";position:absolute;top:0;width:20px;height:20px;border-radius:50%;background:var(--bg)}
+.perf::before{left:-10px}.perf::after{right:-10px}
+.perf span{position:absolute;left:18px;right:18px;top:9px;border-top:2px dashed rgba(255,255,255,.22)}
+.ticket-bottom{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:6px 20px 20px}
+.ticket-bottom div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.ticket-bottom small{font-size:11px;opacity:.6;letter-spacing:.04em}
+.ticket-bottom strong{font-family:var(--f-num);font-size:16px;font-weight:600}
+.ticket-bottom strong.k{font-family:var(--f-body);font-size:14px;font-weight:500}
+
+.dday{display:flex;align-items:center;gap:14px;background:var(--surface);border-radius:18px;padding:14px 16px;box-shadow:var(--shadow)}
+.dday .badge{flex:none;font-family:var(--f-num);font-weight:700;font-size:20px;color:var(--coral);background:var(--coral-soft);border-radius:14px;min-width:68px;padding:8px 10px;text-align:center}
+.dday p{font-size:14px;min-width:0}
+.dday p b{font-weight:700}
+
+/* ---------- 섹션 ---------- */
+.section{display:flex;flex-direction:column;gap:14px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.sec-head h2{font-size:22px}
+
+/* 탭 */
+.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:8px;margin-block:-8px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tab{appearance:none;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:16px;padding:10px 12px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:1px;font:inherit;transition:background .2s,border-color .2s}
+.tab small{font-size:12px;color:var(--muted)}
+.tab b{font-family:var(--f-display);font-weight:400;font-size:17px}
+.tab[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.tab[aria-selected="true"] small{color:var(--bg);opacity:.7}
+
+/* 타임라인 */
+.timeline{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.item{display:grid;grid-template-columns:52px 28px minmax(0,1fr);column-gap:10px;position:relative}
+.item .time{padding-top:13px;text-align:right;font-family:var(--f-num);font-variant-numeric:tabular-nums;font-size:15px;font-weight:600;line-height:1.2}
+.item .time small{display:block;font-weight:400;font-size:11px;color:var(--muted);margin-top:3px}
+.rail{position:relative;display:flex;justify-content:center}
+.rail::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:2px;margin-left:-1px;background:var(--line)}
+.item:first-child .rail::before{top:20px}
+.item:last-child .rail::before{bottom:calc(100% - 20px)}
+.dot{position:relative;margin-top:10px;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:2px solid var(--line)}
+.dot svg{width:15px;height:15px}
+.item .body{padding:10px 0 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.item .title{font-size:15px;font-weight:500;line-height:1.45}
+.item .place{font-size:13px;color:var(--muted);display:flex;gap:4px;align-items:flex-start}
+.item .place svg{flex:none;width:13px;height:13px;margin-top:3px}
+.item .memo{align-self:flex-start;font-size:12px;font-weight:500;padding:2px 8px;border-radius:6px;background:var(--butter-soft);color:var(--ink)}
+
+/* 종류별 색 */
+.t-move .dot{color:var(--sky);border-color:var(--sky-soft);background:var(--sky-soft)}
+.t-meal .dot{color:#D99A1E;border-color:var(--butter-soft);background:var(--butter-soft)}
+.t-check .dot{color:var(--mint);border-color:var(--mint-soft);background:var(--mint-soft)}
+.t-rest .dot{color:var(--muted)}
+.t-room .dot{color:var(--coral);border-color:var(--coral-soft);background:var(--coral-soft)}
+.t-prog .dot{color:#fff;background:var(--coral);border-color:var(--coral)}
+.t-prog .body{background:var(--surface);border-radius:16px;padding:12px 14px;margin:6px 0 14px;box-shadow:var(--shadow)}
+.t-prog .title{font-family:var(--f-display);font-size:17px;font-weight:400}
+.t-prog .detail{font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:1px}
+.t-prog .detail span::before{content:"· "}
+.t-night .body{background:var(--night);color:var(--night-ink)}
+.t-night .detail,.t-night .place{color:rgba(245,246,255,.72)}
+.t-night .dot{background:var(--night);border-color:var(--night);color:var(--butter)}
+
+/* 진행 중 */
+.item.now .time{color:var(--coral)}
+.item.now .dot{box-shadow:0 0 0 5px var(--coral-soft)}
+.now-chip{display:none;align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:.04em;color:#fff;background:var(--coral);border-radius:999px;padding:2px 8px}
+.item.now .now-chip{display:inline-block}
+.item.past{opacity:.5}
+@media (prefers-reduced-motion:no-preference){
+  .item.now .dot{animation:pulse 2s ease-in-out infinite}
+  @keyframes pulse{50%{box-shadow:0 0 0 9px transparent}}
+}
+.note{font-size:12px;color:var(--muted);text-align:center}
+
+/* 준비물 체크 */
+.checks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.check{position:relative;display:flex;align-items:center;gap:10px;background:var(--surface);border:1.5px solid var(--line);border-radius:14px;padding:11px 12px;cursor:pointer;font-size:14px;font-weight:500;transition:border-color .2s,background .2s}
+.check input{position:absolute;opacity:0;pointer-events:none}
+.check .box{flex:none;width:20px;height:20px;border-radius:7px;border:2px solid var(--line);display:grid;place-items:center;transition:all .2s}
+.check .box svg{width:12px;height:12px;opacity:0;color:#fff}
+.check input:checked ~ .box{background:var(--mint);border-color:var(--mint)}
+.check input:checked ~ .box svg{opacity:1}
+.check:has(input:checked){border-color:var(--mint);background:var(--mint-soft)}
+.check:has(input:focus-visible){outline:2px solid var(--sky);outline-offset:2px}
+.check em{font-style:normal;font-size:11px;color:var(--coral);font-weight:700;margin-left:auto}
+.progress{font-size:13px;color:var(--muted)}
+
+/* 주의사항 */
+.notices{display:flex;flex-direction:column;gap:10px}
+.notice{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:start;background:var(--surface);border-radius:18px;padding:14px;box-shadow:var(--shadow)}
+.notice .ico{width:44px;height:44px;border-radius:14px;display:grid;place-items:center}
+.notice .ico svg{width:22px;height:22px}
+.notice h3{font-size:16px;margin-bottom:2px}
+.notice p{font-size:13.5px;color:var(--muted);line-height:1.6}
+.notice p b{color:var(--ink);font-weight:500}
+.n-coral .ico{background:var(--coral-soft);color:var(--coral)}
+.n-sky .ico{background:var(--sky-soft);color:var(--sky)}
+.n-butter .ico{background:var(--butter-soft);color:#D99A1E}
+.n-mint .ico{background:var(--mint-soft);color:var(--mint)}
+
+/* 약 카드 */
+.care{position:relative;overflow:hidden;background:var(--coral-soft);border-radius:22px;padding:20px 18px;display:flex;flex-direction:column;gap:10px}
+.care .cross{position:absolute;right:-18px;top:-18px;width:110px;height:110px;opacity:.5;color:var(--surface)}
+.care h2{font-size:21px;position:relative}
+.care p{font-size:14px;position:relative;line-height:1.65}
+.person{position:relative;display:flex;align-items:center;gap:12px;background:var(--surface);border-radius:16px;padding:12px 14px;margin-top:4px}
+.avatar{flex:none;width:42px;height:42px;border-radius:50%;background:var(--coral);color:#fff;display:grid;place-items:center;font-family:var(--f-display);font-size:18px}
+.person div{min-width:0}
+.person b{font-size:16px;font-weight:700;display:block}
+.person span{font-size:12.5px;color:var(--muted)}
+.person>div:not(.avatar){flex:1}
+.person .avatar{flex:0 0 42px;width:42px;height:42px;aspect-ratio:1}
+.tel{display:block;margin-top:2px;font-size:16px;font-weight:600;color:var(--coral);text-decoration:none;user-select:all}
+.copy{flex:none;appearance:none;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:13px;font-weight:500;border-radius:10px;padding:7px 12px;cursor:pointer}
+.pills{position:relative;display:flex;flex-wrap:wrap;gap:6px}
+.pills span{font-size:12px;padding:3px 10px;border-radius:999px;background:var(--surface);color:var(--ink)}
+
+/* 장소 */
+.places{display:flex;flex-direction:column;background:var(--surface);border-radius:18px;box-shadow:var(--shadow);overflow:hidden}
+.place-row{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:12px;align-items:center;padding:13px 14px;text-decoration:none;border-top:1px solid var(--line)}
+.place-row:first-child{border-top:0}
+.place-row .pn{font-family:var(--f-num);font-weight:700;font-size:13px;width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:var(--sky-soft);color:var(--sky)}
+.place-row b{display:block;font-weight:500;font-size:14.5px}
+.place-row small{display:block;font-size:12px;color:var(--muted)}
+.place-row .go{font-size:12px;color:var(--sky);font-weight:500;white-space:nowrap}
+
+/* 문의·건의 */
+.talk{display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:12px;align-items:center;text-decoration:none;background:var(--butter-soft);border:1.5px solid var(--butter);border-radius:18px;padding:12px 14px}
+.talk-ico{width:44px;height:44px;border-radius:14px;background:var(--butter);color:#3B2A12;display:grid;place-items:center}
+.talk-ico svg{width:22px;height:22px}
+.talk-txt{min-width:0;display:flex;flex-direction:column;gap:1px}
+.talk-txt b{font-family:var(--f-display);font-weight:400;font-size:17px}
+.talk-txt small{font-size:12.5px;color:var(--muted);line-height:1.45}
+.talk-go{font-size:13px;font-weight:700;background:var(--ink);color:var(--bg);border-radius:999px;padding:7px 12px;white-space:nowrap}
+.survey{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:center;background:var(--mint-soft);border-radius:20px;padding:16px}
+.survey-ico{width:44px;height:44px;border-radius:14px;background:var(--surface);color:var(--mint);display:grid;place-items:center}
+.survey-ico svg{width:22px;height:22px}
+.survey-txt{min-width:0;display:flex;flex-direction:column;gap:2px}
+.survey-txt h2{font-size:18px}
+.survey-txt p{font-size:13px;color:var(--muted)}
+.survey-go{grid-column:1/-1;text-align:center;text-decoration:none;font-weight:700;font-size:15px;border-radius:14px;padding:11px;background:var(--mint);color:#fff}
+.survey-go[aria-disabled="true"]{background:var(--surface);color:var(--muted);pointer-events:none}
+.ask{background:var(--surface);border-radius:22px;padding:18px 16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
+.ask p.lead{font-size:13.5px;color:var(--muted)}
+.kinds{display:flex;gap:8px;flex-wrap:wrap}
+.kind{position:relative}
+.kind input{position:absolute;opacity:0;pointer-events:none}
+.kind span{display:inline-block;padding:7px 14px;border-radius:999px;border:1.5px solid var(--line);font-size:13.5px;font-weight:500;cursor:pointer;transition:all .2s}
+.kind input:checked + span{background:var(--sky-soft);border-color:var(--sky);color:var(--ink)}
+.kind input:focus-visible + span{outline:2px solid var(--sky);outline-offset:2px}
+.ask{position:relative}
+.ask-name{width:100%;border:1.5px solid var(--line);border-radius:14px;background:var(--bg);color:var(--ink);font:inherit;font-size:16px;padding:10px 13px}
+.ask-name:focus{outline:none;border-color:var(--sky)}
+.ask textarea{width:100%;min-height:110px;resize:vertical;border:1.5px solid var(--line);border-radius:14px;background:var(--bg);color:var(--ink);font:inherit;font-size:16px;line-height:1.55;padding:12px 13px}
+.ask textarea:focus{outline:none;border-color:var(--sky)}
+.ask-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.ask-row small{font-size:12px;color:var(--muted)}
+.send{appearance:none;border:0;border-radius:14px;background:var(--coral);color:#fff;font:inherit;font-weight:700;font-size:15px;padding:11px 22px;cursor:pointer}
+.send:disabled{opacity:.45;cursor:default}
+.ask-status{font-size:13px;min-height:1em}
+.ask-status.ok{color:var(--mint)}
+.ask-status.err{color:var(--coral)}
+.mine{display:flex;flex-direction:column;gap:8px;border-top:1px dashed var(--line);padding-top:12px}
+.mine h3{font-size:15px}
+.msg{background:var(--bg);border-radius:12px;padding:10px 12px;font-size:13.5px;display:flex;flex-direction:column;gap:4px;white-space:pre-wrap}
+.msg .meta{display:flex;gap:6px;align-items:center;font-size:11.5px;color:var(--muted);white-space:normal}
+.msg .k{font-weight:700;padding:1px 7px;border-radius:6px;background:var(--sky-soft);color:var(--ink)}
+.msg .k.s{background:var(--butter-soft)}
+.admin{border:1.5px solid var(--sky);border-radius:22px;padding:16px;display:flex;flex-direction:column;gap:10px;background:var(--surface)}
+.admin h2{font-size:19px}
+
+footer{text-align:center;font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:4px;padding-top:4px}
+footer .flower{font-family:var(--f-display);font-size:14px;color:var(--ink)}
+</style>
+
+</head><body><div class="wrap">
+
+  <!-- 티켓 헤더 -->
+  <header class="ticket">
+    <div class="ticket-top">
+      <canvas id="sky" aria-hidden="true"></canvas>
+      <span class="tag"><i></i>1박 2일 · 20명</span>
+      <h1>AI·디지털 교육혁신<br><em>특수교과 연수 담당자</em><br>역량 강화 연수</h1>
+      <p class="sub">2026년 AI·디지털 기반 교육혁신 특수교과 교원 연수 담당자 역량 강화 연수</p>
+      <div class="route">
+        <div class="city"><b>GWJ</b><span>광주</span></div>
+        <svg viewBox="0 0 72 24" fill="none" aria-hidden="true"><path d="M2 12h60" stroke="currentColor" stroke-opacity=".35" stroke-width="1.5" stroke-dasharray="3 4"/><path d="M58 6l8 6-8 6" stroke="#FFD36A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="city"><b>SEL</b><span>서울</span></div>
+      </div>
+    </div>
+    <div class="perf" aria-hidden="true"><span></span></div>
+    <div class="ticket-bottom">
+      <div><small>출발</small><strong class="num">10.30 금</strong></div>
+      <div><small>집결</small><strong class="num">08:00</strong></div>
+      <div><small>귀가</small><strong class="num">10.31 토</strong></div>
+    </div>
+  </header>
+
+  <div class="dday" id="dday">
+    <div class="badge" id="ddayBadge">D-8</div>
+    <p id="ddayText"><b>10월 30일(금) 오전 8시</b>, 시민협치진흥원 주차장에서 전세버스가 출발할 예정입니다. (버스 내 아침 식사 제공)</p>
+  </div>
+
+  <a class="talk" href="https://open.kakao.com/o/g7nu1ATi" target="_blank" rel="noopener">
+    <span class="talk-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3.5c-5 0-9 3.1-9 7 0 2.5 1.7 4.7 4.2 6l-.9 3.4c-.1.3.3.6.6.4l4-2.7c.4 0 .7.1 1.1.1 5 0 9-3.1 9-7s-4-7.2-9-7.2z"/></svg></span>
+    <span class="talk-txt"><b>연수 오픈채팅방</b><small>공지 및 긴급 연락은 오픈채팅방으로 안내합니다. 대화명은 ‘이름/학교’로 설정해 주시기 바랍니다.</small></span>
+    <span class="talk-go">입장하기</span>
+  </a>
+
+  <!-- 일정 -->
+  <section class="section" id="schedule" aria-labelledby="schedTitle">
+    <div class="sec-head">
+      <h2 id="schedTitle">연수 일정</h2>
+      <span class="eyebrow">소요 시간(분)</span>
+    </div>
+    <div class="tabs" role="tablist" aria-label="날짜 선택">
+      <button class="tab" role="tab" id="tab-day1" aria-controls="day1" aria-selected="true" data-day="day1"><small class="num">10.30 금</small><b>1일차 · 서울</b></button>
+      <button class="tab" role="tab" id="tab-day2" aria-controls="day2" aria-selected="false" data-day="day2"><small class="num">10.31 토</small><b>2일차 · 서울→광주</b></button>
+    </div>
+    <ol class="timeline" id="day1" role="tabpanel" aria-labelledby="tab-day1"></ol>
+    <ol class="timeline" id="day2" role="tabpanel" aria-labelledby="tab-day2" hidden></ol>
+    <p class="note">※ 위 일정은 추진 상황에 따라 변경될 수 있습니다.</p>
+  </section>
+
+  <!-- 준비물 -->
+  <section class="section" aria-labelledby="packTitle">
+    <div class="sec-head">
+      <h2 id="packTitle">준비물</h2>
+      <span class="progress num" id="packCount">0 / 6</span>
+    </div>
+    <div class="checks" id="checks">
+      <label class="check"><input type="checkbox" id="p-id" value="id"><span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.3 2.3 4.7-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>신분증<em>필수</em></label>
+      <label class="check"><input type="checkbox" id="p-shoes" value="shoes"><span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.3 2.3 4.7-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>편한 신발</label>
+      <label class="check"><input type="checkbox" id="p-coat" value="coat"><span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.3 2.3 4.7-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>따뜻한 겉옷</label>
+      <label class="check"><input type="checkbox" id="p-cloth" value="cloth"><span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.3 2.3 4.7-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>1박 세면·의류</label>
+      <label class="check"><input type="checkbox" id="p-charge" value="charge"><span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.3 2.3 4.7-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>충전기</label>
+      <label class="check"><input type="checkbox" id="p-med" value="med"><span class="box"><svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6.2l2.3 2.3 4.7-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>개인 복용약</label>
+    </div>
+  </section>
+
+  <!-- 주의사항 -->
+  <section class="section" aria-labelledby="noticeTitle">
+    <div class="sec-head"><h2 id="noticeTitle">유의사항</h2></div>
+    <div class="notices">
+      <article class="notice n-coral">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><circle cx="9" cy="11" r="2"/><path d="M6 16c.6-1.4 1.7-2 3-2s2.4.6 3 2M14.5 10h3.5M14.5 13h2.5"/></svg></div>
+        <div><h3>신분증 지참</h3><p>한강 크루즈 탑승 전 <b>승선신고</b>가 진행되며, 신분증 미지참 시 승선이 불가합니다. 주민등록증, 운전면허증, 모바일 신분증 모두 가능합니다.</p></div>
+      </article>
+      <article class="notice n-sky">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 16.5V10l4-1 2 3c1.5 1.5 4 2 7 2.2 2.5.2 5 1.2 5 3.3v.5H3z"/><path d="M3 19.5h18"/><path d="M10.5 13l1.5-2M13.5 14l1.2-2"/></svg></div>
+        <div><h3>편한 신발 착용</h3><p>구글코리아 기관 탐방, 선착장 이동, 선정릉 현장해설 등 <b>도보 이동이 많으니</b> 편한 신발을 착용해 주시기 바랍니다.</p></div>
+      </article>
+      <article class="notice n-butter">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v2M12 19v2M5.6 5.6L7 7M17 17l1.4 1.4M3 12h2M19 12h2M5.6 18.4L7 17M17 7l1.4-1.4"/><path d="M15.5 12A3.5 3.5 0 1 1 12 8.5"/></svg></div>
+        <div><h3>야간 보온 대비</h3><p>크루즈는 <b>20:30~21:40</b> 한강에서 운항합니다. 10월 말 야간에는 기온이 크게 낮아지므로 겉옷을 준비해 주시기 바랍니다.</p></div>
+      </article>
+      <article class="notice n-mint">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M9.5 2.5h5"/></svg></div>
+        <div><h3>집결 시간 준수</h3><p>1일차 전세버스는 <b>오전 8시</b> 출발 예정입니다. 원활한 출발을 위해 <b>07:50까지</b> 도착하여 등록해 주시기 바랍니다. 이동 시마다 인원을 확인하오니, 자리를 비우실 경우 담당자에게 미리 알려 주시기 바랍니다.</p></div>
+      </article>
+      <article class="notice n-butter">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15.5v-3l1.8-4.2A2 2 0 0 1 7.6 7h8.8a2 2 0 0 1 1.8 1.3L20 12.5v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1zM4.5 12.5h15"/><circle cx="7.5" cy="16.5" r="1.6"/><circle cx="16.5" cy="16.5" r="1.6"/></svg></div>
+        <div><h3>주차 안내</h3><p><b>전남광주통합특별시교육청 시민협치진흥원</b> 주차장에 주차가 가능합니다. 전세버스 집결지와 동일한 장소입니다.</p></div>
+      </article>
+      <article class="notice n-sky">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="7" width="14" height="13" rx="2.5"/><path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M5 12h14"/></svg></div>
+        <div><h3>수하물 안내</h3><p>2일차 오전 선정릉 탐방 후 호텔로 복귀하여 중식을 합니다. <b>12:50</b> 버스 탑승 시 수하물을 확인하오니, 그 전까지 짐을 정리해 주시기 바랍니다.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- 약 -->
+  <section class="care" aria-labelledby="careTitle">
+    <svg class="cross" viewBox="0 0 100 100" aria-hidden="true"><path fill="currentColor" d="M38 8h24a4 4 0 0 1 4 4v22h22a4 4 0 0 1 4 4v24a4 4 0 0 1-4 4H66v22a4 4 0 0 1-4 4H38a4 4 0 0 1-4-4V66H12a4 4 0 0 1-4-4V38a4 4 0 0 1 4-4h22V12a4 4 0 0 1 4-4z"/></svg>
+    <span class="eyebrow">건강 관리 안내</span>
+    <h2 id="careTitle">상비약 구비 안내</h2>
+    <p>출발 당일 또는 연수 중 몸이 불편하신 경우 담당자에게 말씀해 주시면 필요한 상비약을 드립니다. 이동이 어려우신 경우 전화 또는 오픈채팅방으로 연락 주시면 찾아가겠습니다.</p>
+    <div class="pills"><span>해열진통제</span><span>종합감기약</span><span>소화제·위장약</span><span>지사제</span><span>멀미약</span><span>상처 연고·밴드</span><span>파스</span><span>인공눈물</span></div>
+    <div class="person">
+      <div class="avatar" aria-hidden="true"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg></div>
+      <div><b>김하은</b><span>특수교육지원센터 · 연수 담당자</span><a class="tel num" href="tel:0627176804">062-717-6804</a></div>
+      <button class="copy" id="copyTel" type="button">복사</button>
+    </div>
+  </section>
+
+  <!-- 문의·건의 -->
+  <section class="section" aria-labelledby="askTitle">
+    <div class="sec-head"><h2 id="askTitle">문의 · 건의</h2></div>
+    <form class="ask" id="askForm" novalidate>
+      <p class="lead">단체방에서 말씀하기 어려운 내용은 이곳에 남겨 주시기 바랍니다. 작성 내용은 <b>담당자만 확인</b>합니다.</p>
+      <div class="kinds" role="radiogroup" aria-label="종류">
+        <label class="kind"><input type="radio" name="kind" id="k-q" value="문의" checked><span>문의</span></label>
+        <label class="kind"><input type="radio" name="kind" id="k-s" value="건의"><span>건의</span></label>
+      </div>
+      <label for="askName" class="eyebrow">이름 (선택)</label>
+      <input class="ask-name" id="askName" type="text" maxlength="40" autocomplete="name" placeholder="예) 홍길동 / ○○학교">
+      <input id="askHp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
+      <label for="askText" class="eyebrow">내용</label>
+      <textarea id="askText" maxlength="500" placeholder="예) 복용 중인 약이 있어 식사 시간에 참고해 주셨으면 합니다."></textarea>
+      <div class="ask-row">
+        <small class="num" id="askLen">0 / 500</small>
+        <button class="send" id="askSend" type="submit" disabled>보내기</button>
+      </div>
+      <p class="ask-status" id="askStatus" role="status"></p>
+    </form>
+  </section>
+
+  <!-- 만족도 조사 -->
+  <section class="survey" aria-labelledby="surveyTitle">
+    <span class="survey-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="17" rx="2.5"/><path d="M9 3.5h6v2.5H9zM8.5 11l1.5 1.5 3-3M8.5 16h7"/></svg></span>
+    <div class="survey-txt"><h2 id="surveyTitle">연수 만족도 조사</h2><p id="surveyNote">설문 링크를 준비 중입니다.</p></div>
+    <a class="survey-go" id="surveyGo" aria-disabled="true">준비 중</a>
+  </section>
+
+  <!-- 장소 -->
+  <section class="section" aria-labelledby="placeTitle">
+    <div class="sec-head"><h2 id="placeTitle">주요 장소</h2><span class="eyebrow">지도 보기</span></div>
+    <nav class="places" id="places"></nav>
+  </section>
+
+  <footer>
+    <span class="flower">안전하고 뜻깊은 연수가 되시기를 바랍니다.</span>
+    <span>전남광주통합특별시교육청 특수교육지원센터</span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  const I = {
+    move:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="2.5" width="11" height="9.5" rx="2"/><path d="M2.5 8h11M5 14v-2M11 14v-2"/><circle cx="5.3" cy="10" r=".5" fill="currentColor"/><circle cx="10.7" cy="10" r=".5" fill="currentColor"/></svg>',
+    meal:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v4a1.5 1.5 0 0 0 3 0V2M5.5 7v7M11 14V2c-1.5 1-2 3-2 5h2"/></svg>',
+    check:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="5.5" r="2.5"/><path d="M2 13.5c.5-2.3 2-3.5 4-3.5s3.2.8 3.8 2M10 11.5l1.5 1.5 3-3"/></svg>',
+    prog:'<svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5l1.9 4 4.4.5-3.3 3 .9 4.4L8 11.2l-3.9 2.2.9-4.4-3.3-3 4.4-.5z"/></svg>',
+    ship:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 10h12l-1.5 3h-9zM4 10V7h8v3M7 7V4h3"/><path d="M1.5 14.5c1 0 1.2-.5 2.2-.5s1.2.5 2.2.5 1.2-.5 2.1-.5 1.2.5 2.2.5 1.2-.5 2.1-.5"/></svg>',
+    rest:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 9.5A5.5 5.5 0 1 1 6.5 3a4.5 4.5 0 0 0 6.5 6.5z"/></svg>',
+    room:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 4v9M1.5 10.5h13V13M1.5 8h4.5V6.2a1 1 0 0 1 1-1h5.5a2 2 0 0 1 2 2v3.3"/><circle cx="4" cy="6.3" r="1.2"/></svg>',
+    pin:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M8 14.5s5-4.3 5-8a5 5 0 0 0-10 0c0 3.7 5 8 5 8z"/><circle cx="8" cy="6.5" r="1.8"/></svg>'
+  };
+
+  // [day, 시작, 끝, 분, 종류, 내용, 장소, 세부, 메모]
+  const S = {
+    day1:{date:'2026-10-30', items:[
+      ['08:00','08:10',10,'check','등록 및 인원 파악','시민협치진흥원 주차장',[],'07:50까지 도착'],
+      ['08:10','11:50',220,'move','서울 이동','전세버스',[],'버스 내 아침 식사 제공'],
+      ['11:50','12:40',50,'meal','중식','대독장 역삼점'],
+      ['12:40','13:00',20,'move','구글코리아 이동','전세버스'],
+      ['13:00','14:00',60,'prog','구글코리아 기관 투어','구글코리아',['AI·디지털 기반 미래교육 현장 탐방']],
+      ['14:00','15:00',60,'prog','구글 크롬북 강의','구글코리아',['교실에서 크롬북 활용하기']],
+      ['15:00','16:00',60,'prog','Google AI 기반 사회정서학습','구글코리아',['김윤경 선생님 · 인천서희학교','Gemini·NotebookLM·Stitch·AI Studio로 만든 마음 G.P.S. 앱 개발 사례']],
+      ['16:00','16:20',20,'move','호텔뉴브 이동','전세버스'],
+      ['16:20','18:00',100,'room','숙소 체크인 및 객실 휴식','서울 호텔뉴브',[],'객실 번호는 현장 안내'],
+      ['18:00','19:00',60,'meal','저녁 식사','호텔뉴브 1F 노마디아'],
+      ['19:00','20:00',60,'move','여의도 이동','전세버스'],
+      ['20:00','20:30',30,'check','승선 등록 및 안전교육','이랜드크루즈 여의도선착장',[],'신분증 지참'],
+      ['20:30','21:40',70,'night','한강 야경 문화체험','이랜드크루즈 여의도선착장',['여의도 불꽃뮤직크루즈 탑승']],
+      ['21:40','22:50',70,'move','하선 및 호텔 이동','하선 · 인원 확인'],
+      ['22:50',null,null,'rest','자율 휴식','서울 호텔뉴브']
+    ]},
+    day2:{date:'2026-10-31', items:[
+      ['07:00','09:20',140,'meal','아침 식사','호텔뉴브 1F 노마디아'],
+      ['09:20','09:30',10,'check','인원 체크','서울 호텔뉴브'],
+      ['09:30','10:00',30,'move','선정릉 이동','전세버스 · 현장해설 집결'],
+      ['10:00','11:00',60,'prog','선정릉 역사문화 탐방','선정릉',['조선왕릉 현장해설']],
+      ['11:00','11:30',30,'prog','자유관람 및 단체사진 촬영','선정릉'],
+      ['11:30','11:50',20,'move','호텔 복귀','전세버스'],
+      ['11:50','12:50',60,'meal','중식','호텔뉴브 1F 노마디아'],
+      ['12:50','13:00',10,'check','탑승 및 최종 인원 확인','호텔뉴브',[],'수하물 확인'],
+      ['13:00','16:50',230,'move','광주 이동','전세버스'],
+      ['16:50',null,null,'check','도착 인원 확인 및 귀가','광주특수교육지원센터']
+    ]}
+  };
+
+  const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const ts = (d,t)=> new Date(d+'T'+t+':00+09:00').getTime();
+
+  for (const key of ['day1','day2']){
+    const ol = document.getElementById(key), day = S[key];
+    ol.innerHTML = day.items.map((it,i)=>{
+      const [st,en,min,type,title,place,detail=[],memo] = it;
+      const cls = type==='night' ? 't-prog t-night' : 't-'+type;
+      const icon = type==='night' ? I.ship : I[type];
+      const startMs = ts(day.date,st);
+      const endMs = en ? ts(day.date,en) : (key==='day1' ? ts('2026-10-31','07:00') : startMs+60*60e3);
+      return `<li class="item ${cls}" data-s="${startMs}" data-e="${endMs}">
+        <div class="time">${st}${min?`<small>${min}분</small>`:''}</div>
+        <div class="rail"><span class="dot">${icon}</span></div>
+        <div class="body">
+          <span class="now-chip">진행 중</span>
+          <span class="title">${esc(title)}</span>
+          ${detail.length?`<span class="detail">${detail.map(d=>`<span>${esc(d)}</span>`).join('')}</span>`:''}
+          <span class="place">${I.pin}<span>${esc(place)}${en?` · ~${en}`:''}</span></span>
+          ${memo?`<span class="memo">${esc(memo)}</span>`:''}
+        </div></li>`;
+    }).join('');
+  }
+
+  // 탭
+  const tabs=[...document.querySelectorAll('.tab')];
+  function show(day, scroll){
+    tabs.forEach(t=>{const on=t.dataset.day===day;t.setAttribute('aria-selected',on);t.tabIndex=on?0:-1;document.getElementById(t.dataset.day).hidden=!on;});
+    try{ if(scroll) history.replaceState(null,'','#'+day);}catch(e){}
+  }
+  tabs.forEach(t=>t.addEventListener('click',()=>show(t.dataset.day,true)));
+  tabs.forEach((t,i)=>t.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowLeft'){const n=tabs[(i+1)%2];n.focus();show(n.dataset.day,true);}}));
+
+  // 지금/디데이
+  const startTrip=ts('2026-10-30','08:00'), endTrip=ts('2026-10-31','16:50');
+  function tick(){
+    const now=Date.now();
+    document.querySelectorAll('.item').forEach(li=>{
+      const s=+li.dataset.s,e=+li.dataset.e;
+      li.classList.toggle('now', now>=s && now<e);
+      li.classList.toggle('past', now>=e);
+    });
+    const b=document.getElementById('ddayBadge'), t=document.getElementById('ddayText');
+    const kNow=new Date(now+9*3600e3); const today=Date.UTC(kNow.getUTCFullYear(),kNow.getUTCMonth(),kNow.getUTCDate());
+    const diff=Math.round((Date.UTC(2026,9,30)-today)/864e5);
+    if(now<startTrip){
+      b.textContent = diff>0 ? 'D-'+diff : 'D-DAY';
+      t.innerHTML = diff>0 ? '<b>10월 30일(금) 오전 8시</b>, 시민협치진흥원 주차장에서 전세버스가 출발할 예정입니다. (버스 내 아침 식사 제공)' : '<b>오늘 오전 8시</b> 출발 예정입니다. (버스 내 아침 식사 제공) 신분증을 지참하여 주시기 바랍니다.';
+    } else if(now<=endTrip){
+      const cur=document.querySelector('.item.now .title');
+      b.textContent = diff===0?'1일차':'2일차';
+      t.innerHTML = cur ? '현재 <b>'+cur.textContent+'</b> 진행 중입니다.' : '연수가 진행 중입니다. 아래 일정을 확인하여 주시기 바랍니다.';
+    } else {
+      b.textContent='완료'; t.innerHTML='연수가 종료되었습니다. <b>참여해 주셔서 감사합니다.</b>';
+    }
+  }
+  tick(); setInterval(tick,30000);
+
+  const h=(location.hash||'').slice(1);
+  const kd=new Date(Date.now()+9*3600e3).toISOString().slice(0,10);
+  show(h==='day1'||h==='day2' ? h : (kd==='2026-10-31' ? 'day2':'day1'), false);
+  const nowEl=document.querySelector('.timeline:not([hidden]) .item.now');
+  if(nowEl && !h) setTimeout(()=>nowEl.scrollIntoView({block:'center',behavior:'smooth'}),400);
+
+  // 준비물 체크 (이 기기에만 저장)
+  const boxes=[...document.querySelectorAll('#checks input')];
+  let saved={}; try{saved=JSON.parse(localStorage.getItem('trip-pack')||'{}')}catch(e){}
+  const count=()=>{document.getElementById('packCount').textContent=boxes.filter(b=>b.checked).length+' / '+boxes.length;};
+  boxes.forEach(b=>{b.checked=!!saved[b.value];b.addEventListener('change',()=>{saved[b.value]=b.checked;try{localStorage.setItem('trip-pack',JSON.stringify(saved))}catch(e){}count();});});
+  count();
+
+  // 장소
+  const P=[
+    ['시민협치진흥원 주차장','1일차 08:00 집결 · 출발 · 주차 가능','시민협치진흥원 광주'],
+    ['대독장 역삼점','1일차 점심','대독장 역삼점'],
+    ['구글코리아','1일차 탐방 · 특강','구글코리아 강남파이낸스센터'],
+    ['서울 호텔뉴브','휴식 · 식사 · 숙박','호텔뉴브 서울'],
+    ['이랜드크루즈 여의도선착장','1일차 야경 크루즈','이랜드크루즈 여의도선착장'],
+    ['선정릉','2일차 역사문화 탐방','선정릉'],
+    ['광주특수교육지원센터','2일차 도착 · 귀가','광주특수교육지원센터']
+  ];
+  document.getElementById('places').innerHTML=P.map((p,i)=>`<a class="place-row" href="https://map.naver.com/p/search/${encodeURIComponent(p[2])}" target="_blank" rel="noopener"><span class="pn">${i+1}</span><span><b>${p[0]}</b><small>${p[1]}</small></span><span class="go">지도 ›</span></a>`).join('');
+
+  // 티켓 밤하늘 (별 + 작은 불꽃)
+  const c=document.getElementById('sky'), x=c.getContext('2d');
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let W,H,stars=[],t0=0;
+  function size(){const r=c.getBoundingClientRect(),d=devicePixelRatio||1;W=r.width;H=r.height;c.width=W*d;c.height=H*d;x.setTransform(d,0,0,d,0,0);
+    stars=Array.from({length:Math.round(W*H/2200)},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.1+.3,p:Math.random()*6}));}
+  const bursts=[{x:.82,y:.2,c:'#FFD36A',r:30},{x:.92,y:.42,c:'#FF8A9C',r:20}];
+  function draw(t){
+    x.clearRect(0,0,W,H);
+    stars.forEach(s=>{x.globalAlpha=.25+.35*(reduce?1:(Math.sin(t/900+s.p)+1)/2);x.fillStyle='#fff';x.beginPath();x.arc(s.x,s.y,s.r,0,7);x.fill();});
+    bursts.forEach((b,k)=>{
+      const ph=reduce?.8:((t/2400+k*.5)%1), rr=b.r*(.4+.6*Math.min(1,ph*1.6));
+      x.globalAlpha=reduce?.6:Math.max(0,1-ph)*.85; x.strokeStyle=b.c; x.lineWidth=1.6; x.lineCap='round';
+      for(let i=0;i<12;i++){const a=i/12*Math.PI*2;x.beginPath();x.moveTo(b.x*W+Math.cos(a)*rr*.45,b.y*H+Math.sin(a)*rr*.45);x.lineTo(b.x*W+Math.cos(a)*rr,b.y*H+Math.sin(a)*rr);x.stroke();}
+    });
+    x.globalAlpha=1;
+    if(!reduce) requestAnimationFrame(draw);
+  }
+  size(); addEventListener('resize',size); requestAnimationFrame(draw);
+
+  // 전화번호 복사
+  const cb=document.getElementById('copyTel');
+  cb.addEventListener('click',()=>{
+    const done=()=>{cb.textContent='복사됨';setTimeout(()=>cb.textContent='복사',1600);};
+    const sel=()=>{const r=document.createRange();r.selectNodeContents(document.querySelector('.tel'));const s=getSelection();s.removeAllRanges();s.addRange(r);};
+    try{navigator.clipboard.writeText('062-717-6804').then(done,sel);}catch(e){sel();}
+  });
+
+  // 만족도 조사: 링크가 생기면 여기에 넣기
+  const SURVEY_URL='https://naver.me/xZKfL1h0';
+  if(SURVEY_URL){const g=document.getElementById('surveyGo');g.href=SURVEY_URL;g.target='_blank';g.rel='noopener';g.removeAttribute('aria-disabled');g.textContent='만족도 조사 참여하기';document.getElementById('surveyNote').textContent='연수에 대한 의견을 들려주시면 향후 연수 운영에 반영하겠습니다. (소요 시간 약 1분)';}
+
+  // 문의·건의 → Google Apps Script 웹 앱
+  const ASK_URL='https://script.google.com/macros/s/AKfycbxOQ3BiK4FSNr_L1LhzmuE2saeiRyD7MnfgUfwe-p8eu4dpPeQ8T1HIyC_c3Q1PmBNMdQ/exec'; // 배포한 웹 앱 주소(https://script.google.com/macros/s/.../exec)
+  const form=document.getElementById('askForm'), ta=document.getElementById('askText'),
+        nm=document.getElementById('askName'), hp=document.getElementById('askHp'),
+        send=document.getElementById('askSend'), st=document.getElementById('askStatus'),
+        len=document.getElementById('askLen');
+  let busy=false;
+  const setStatus=(t,c)=>{st.textContent=t;st.className='ask-status '+(c||'');};
+  const sync=()=>{len.textContent=ta.value.length+' / 500';send.disabled=!ASK_URL||busy||!ta.value.trim();};
+  ta.addEventListener('input',sync);
+  if(!ASK_URL) setStatus('문의 접수 기능을 준비 중입니다. 담당자(062-717-6804) 또는 오픈채팅방으로 문의해 주시기 바랍니다.');
+  form.addEventListener('submit',async e=>{
+    e.preventDefault();
+    const text=ta.value.trim(); if(!text||!ASK_URL||busy) return;
+    const kind=form.querySelector('input[name="kind"]:checked').value;
+    busy=true; sync(); setStatus('전송 중입니다…');
+    try{
+      await fetch(ASK_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},
+        body:JSON.stringify({kind,name:nm.value.trim(),text,hp:hp.value})});
+      ta.value=''; nm.value='';
+      setStatus('정상적으로 접수되었습니다. 감사합니다.','ok');
+    }catch(err){
+      setStatus('전송에 실패했습니다. 잠시 후 다시 시도하시거나 담당자(062-717-6804)에게 연락해 주시기 바랍니다.','err');
+    }
+    busy=false; sync();
+  });
+})();
+</script>
+</body></html>
