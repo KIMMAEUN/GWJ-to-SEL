@@ -266,7 +266,7 @@ footer .flower{font-family:var(--f-display);font-size:14px;color:var(--ink)}
 
   <div class="dday" id="dday">
     <div class="badge" id="ddayBadge">D-8</div>
-    <p id="ddayText"><b>10월 30일(금) 오전 8시</b>, 시민협치진흥원 주차장에서 전세버스가 출발할 예정입니다. (버스 내 아침 식사 제공)</p>
+    <p id="ddayText"><b>10월 30일(금) 오전 8시</b>, 시민협치진흥원 주차장에서 전세버스가 출발할 예정입니다.</p>
   </div>
 
   <a class="talk" href="https://open.kakao.com/o/g7nu1ATi" target="_blank" rel="noopener">
@@ -485,7 +485,7 @@ footer .flower{font-family:var(--f-display);font-size:14px;color:var(--ink)}
     const diff=Math.round((Date.UTC(2026,9,30)-today)/864e5);
     if(now<startTrip){
       b.textContent = diff>0 ? 'D-'+diff : 'D-DAY';
-      t.innerHTML = diff>0 ? '<b>10월 30일(금) 오전 8시</b>, 시민협치진흥원 주차장에서 전세버스가 출발할 예정입니다. (버스 내 아침 식사 제공)' : '<b>오늘 오전 8시</b> 출발 예정입니다. (버스 내 아침 식사 제공) 신분증을 지참하여 주시기 바랍니다.';
+      t.innerHTML = diff>0 ? '<b>10월 30일(금) 오전 8시</b>, 시민협치진흥원 주차장에서 전세버스가 출발할 예정입니다.' : '<b>오늘 오전 8시</b> 출발 예정입니다. 신분증을 지참하여 주시기 바랍니다.';
     } else if(now<=endTrip){
       const cur=document.querySelector('.item.now .title');
       b.textContent = diff===0?'1일차':'2일차';
