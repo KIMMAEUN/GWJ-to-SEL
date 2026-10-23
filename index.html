@@ -308,8 +308,8 @@ footer .flower{font-family:var(--f-display);font-size:14px;color:var(--ink)}
     <div class="sec-head"><h2 id="wxTitle">서울 날씨</h2><span class="eyebrow" id="wxStamp">예보</span></div>
     <div class="wx">
       <div class="wx-days" id="wxDays">
-        <div class="wx-day"><small>10.30 금</small><b class="num">–</b><span>예보 확인 중</span></div>
-        <div class="wx-day"><small>10.31 토</small><b class="num">–</b><span>예보 확인 중</span></div>
+        <div class="wx-day"><small>10.30 금</small><b class="num">–</b><span>예보 불러오는 중</span></div>
+        <div class="wx-day"><small>10.31 토</small><b class="num">–</b><span>예보 불러오는 중</span></div>
       </div>
       <ul class="wx-tips" id="wxTips">
         <li>10월 말 서울은 <b>아침·저녁과 낮의 기온 차가 큽니다.</b> 겹쳐 입을 수 있는 옷을 준비해 주시기 바랍니다.</li>
@@ -587,9 +587,9 @@ footer .flower{font-family:var(--f-display);font-size:14px;color:var(--ink)}
   // 날씨 (Open-Meteo 예보, 기상청 등 각국 모델 종합). 불러오지 못하면 기본 안내만 표시
   (async()=>{
     try{
-      const ctl=new AbortController(); setTimeout(()=>ctl.abort(),8000);
+      const ctl=new AbortController(); setTimeout(()=>ctl.abort(),15000);
       const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude=37.5&longitude=127.03&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code&timezone=Asia%2FSeoul&start_date=2026-10-30&end_date=2026-10-31',{signal:ctl.signal});
-      const d=(await r.json()).daily; if(!d||d.temperature_2m_max[0]==null) return;
+      const d=(await r.json()).daily; if(!d||d.temperature_2m_max[0]==null) throw 0;
       const sky=c=>c>=95?'뇌우':c>=71&&c<=77?'눈':c>=51?'비':c>=45?'안개':c>=3?'흐림':c>=1?'구름 조금':'맑음';
       const lbl=['10.30 금','10.31 토'];
       document.getElementById('wxDays').innerHTML=d.time.map((t,i)=>`<div class="wx-day"><small>${lbl[i]}</small><b class="num">${Math.round(d.temperature_2m_min[i])}° <i>/</i> ${Math.round(d.temperature_2m_max[i])}°</b><span>${sky(d.weather_code[i])} · 강수확률 ${d.precipitation_probability_max[i]}%</span></div>`).join('');
@@ -599,7 +599,9 @@ footer .flower{font-family:var(--f-display);font-size:14px;color:var(--ink)}
       document.getElementById('wxTips').insertAdjacentHTML('afterbegin',tips.join(''));
       const k=new Date(Date.now()+9*3600e3);
       document.getElementById('wxStamp').textContent=`${k.getUTCMonth()+1}.${k.getUTCDate()} 기준 예보`;
-    }catch(e){}
+    }catch(e){
+      document.querySelectorAll('#wxDays .wx-day span').forEach(x=>x.textContent='기상청 날씨누리에서 확인해 주십시오');
+    }
   })();
 
   // 문의·건의 → Google Apps Script 웹 앱
