@@ -394,12 +394,8 @@ footer .flower{font-family:var(--f-display);font-size:14px;color:var(--ink)}
     <div class="sec-head"><h2 id="askTitle">문의 · 건의</h2></div>
     <form class="ask" id="askForm" novalidate>
       <p class="lead">단체방에서 말씀하기 어려운 내용은 이곳에 남겨 주시기 바랍니다. 작성 내용은 <b>담당자만 확인</b>합니다.</p>
-      <div class="kinds" role="radiogroup" aria-label="종류">
-        <label class="kind"><input type="radio" name="kind" id="k-q" value="문의" checked><span>문의</span></label>
-        <label class="kind"><input type="radio" name="kind" id="k-s" value="건의"><span>건의</span></label>
-      </div>
-      <label for="askName" class="eyebrow">이름 (선택)</label>
-      <input class="ask-name" id="askName" type="text" maxlength="40" autocomplete="name" placeholder="예) 홍길동 / ○○학교">
+      <label for="askName" class="eyebrow">이름 · 학교</label>
+      <input class="ask-name" id="askName" type="text" maxlength="40" autocomplete="name" required placeholder="예) 홍길동 / ○○학교">
       <input id="askHp" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
       <label for="askText" class="eyebrow">내용</label>
       <textarea id="askText" maxlength="500" placeholder="예) 복용 중인 약이 있어 식사 시간에 참고해 주셨으면 합니다."></textarea>
@@ -612,13 +608,13 @@ footer .flower{font-family:var(--f-display);font-size:14px;color:var(--ink)}
         len=document.getElementById('askLen');
   let busy=false;
   const setStatus=(t,c)=>{st.textContent=t;st.className='ask-status '+(c||'');};
-  const sync=()=>{len.textContent=ta.value.length+' / 500';send.disabled=!ASK_URL||busy||!ta.value.trim();};
-  ta.addEventListener('input',sync);
+  const sync=()=>{len.textContent=ta.value.length+' / 500';send.disabled=!ASK_URL||busy||!ta.value.trim()||!nm.value.trim();};
+  ta.addEventListener('input',sync); nm.addEventListener('input',sync);
   if(!ASK_URL) setStatus('문의 접수 기능을 준비 중입니다. 담당자(062-717-6804) 또는 오픈채팅방으로 문의해 주시기 바랍니다.');
   form.addEventListener('submit',async e=>{
     e.preventDefault();
-    const text=ta.value.trim(); if(!text||!ASK_URL||busy) return;
-    const kind=form.querySelector('input[name="kind"]:checked').value;
+    const text=ta.value.trim(); if(!text||!nm.value.trim()||!ASK_URL||busy) return;
+    const kind='문의';
     busy=true; sync(); setStatus('전송 중입니다…');
     try{
       await fetch(ASK_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},
