@@ -110,6 +110,7 @@ a{color:inherit}
 .item .title{font-size:15px;font-weight:500;line-height:1.45}
 .item .place{font-size:13px;color:var(--muted);display:flex;gap:4px;align-items:flex-start}
 .item .place svg{flex:none;width:13px;height:13px;margin-top:3px}
+.dl{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;margin-top:4px;text-decoration:none;font-size:13px;font-weight:700;color:#fff;background:var(--coral);border-radius:10px;padding:7px 12px}
 .item .memo{align-self:flex-start;font-size:12px;font-weight:500;padding:2px 8px;border-radius:6px;background:var(--butter-soft);color:var(--ink)}
 
 /* 종류별 색 */
@@ -213,6 +214,9 @@ a{color:inherit}
 .survey-txt h2{font-size:18px}
 .survey-txt p{font-size:13px;color:var(--muted)}
 .survey-go{grid-column:1/-1;text-align:center;text-decoration:none;font-weight:700;font-size:15px;border-radius:14px;padding:11px;background:var(--mint);color:#fff}
+.files{background:var(--sky-soft)}
+.files .survey-ico{color:var(--sky)}
+.files .survey-go{background:var(--sky)}
 .survey-go[aria-disabled="true"]{background:var(--surface);color:var(--muted);pointer-events:none}
 .wx{background:var(--surface);border-radius:20px;padding:16px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px}
 .wx-days{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -407,6 +411,13 @@ footer .flower{font-family:var(--f-display);font-size:14px;color:var(--ink)}
     </form>
   </section>
 
+  <!-- 연수 자료 -->
+  <section class="survey files" aria-labelledby="filesTitle">
+    <span class="survey-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3.5H7a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.5z"/><path d="M14 3.5v5h5M12 11.5v6M9.5 15l2.5 2.5 2.5-2.5"/></svg></span>
+    <div class="survey-txt"><h2 id="filesTitle">연수 자료</h2><p>Google AI 기반 사회정서학습 · 김윤경 선생님(인천서희학교) · PDF 8MB</p></div>
+    <a class="survey-go" href="https://kimmaeun.github.io/GWJ-to-SEL/lecture-google-ai-sel.pdf" download="Google AI 기반 사회정서학습_김윤경.pdf" target="_blank" rel="noopener">강의 자료 받기</a>
+  </section>
+
   <!-- 만족도 조사 -->
   <section class="survey" aria-labelledby="surveyTitle">
     <span class="survey-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="17" rx="2.5"/><path d="M9 3.5h6v2.5H9zM8.5 11l1.5 1.5 3-3M8.5 16h7"/></svg></span>
@@ -449,7 +460,7 @@ footer .flower{font-family:var(--f-display);font-size:14px;color:var(--ink)}
       ['12:40','13:00',20,'move','구글코리아 이동','전세버스'],
       ['13:00','14:00',60,'prog','구글코리아 기관 투어','구글코리아',['AI·디지털 기반 미래교육 현장 탐방']],
       ['14:00','15:00',60,'prog','구글 크롬북 강의','구글코리아'],
-      ['15:00','16:00',60,'prog','Google AI 기반 사회정서학습','구글코리아',['김윤경 선생님 · 인천서희학교','Gemini·NotebookLM·Stitch·AI Studio로 만든 마음 G.P.S. 앱 개발 사례']],
+      ['15:00','16:00',60,'prog','Google AI 기반 사회정서학습','구글코리아',['김윤경 선생님 · 인천서희학교','Gemini·NotebookLM·Stitch·AI Studio로 만든 마음 G.P.S. 앱 개발 사례'],null,{url:'https://kimmaeun.github.io/GWJ-to-SEL/lecture-google-ai-sel.pdf',name:'Google AI 기반 사회정서학습_김윤경.pdf',label:'강의 자료 받기 (PDF)'}],
       ['16:00','16:10',10,'prog','단체사진 촬영','구글코리아'],
       ['16:10','16:30',20,'move','호텔뉴브 이동','전세버스'],
       ['16:30','18:00',90,'room','숙소 체크인 및 객실 휴식','서울 호텔뉴브',['버스에 둔 짐을 함께 내립니다'],'객실 번호는 현장 안내'],
@@ -480,7 +491,7 @@ footer .flower{font-family:var(--f-display);font-size:14px;color:var(--ink)}
   for (const key of ['day1','day2']){
     const ol = document.getElementById(key), day = S[key];
     ol.innerHTML = day.items.map((it,i)=>{
-      const [st,en,min,type,title,place,detail=[],memo] = it;
+      const [st,en,min,type,title,place,detail=[],memo,file] = it;
       const cls = type==='night' ? 't-prog t-night' : 't-'+type;
       const icon = type==='night' ? I.ship : I[type];
       const startMs = ts(day.date,st);
@@ -494,6 +505,7 @@ footer .flower{font-family:var(--f-display);font-size:14px;color:var(--ink)}
           ${detail.length?`<span class="detail">${detail.map(d=>`<span>${esc(d)}</span>`).join('')}</span>`:''}
           <span class="place">${I.pin}<span>${esc(place)}${en?` · ~${en}`:''}</span></span>
           ${memo?`<span class="memo">${esc(memo)}</span>`:''}
+          ${file?`<a class="dl" href="${file.url}" download="${esc(file.name)}" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.5 6.8 8 10.3l3.5-3.5M2.5 13.5h11"/></svg>${esc(file.label)}</a>`:''}
         </div></li>`;
     }).join('');
   }
